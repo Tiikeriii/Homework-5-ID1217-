@@ -53,27 +53,13 @@ public class DistributedProcess implements RemoteProtocol {
     private void findCommonValues(RemoteProtocol G, RemoteProtocol H) throws RemoteException {
         int index = 0;
         Integer value;
-        boolean common = false;
         while (index < size) {
             value = localArray[index];
-            common = G.checkValue(value);
-
-            if (!common) {
-                index++;
-                continue;
-            } 
-            else {
-                common = H.checkValue(value);
-                if (!common) {
-                    index++;
-                    continue;
-                } 
-                else {
-                    localCommonArray.add(value);
-                    G.updateCommonArray(value);
-                    H.updateCommonArray(value);
-                    System.out.print(value + " ");
-                }
+            if (G.checkValue(value) && H.checkValue(value)) {
+                localCommonArray.add(value);
+                G.updateCommonArray(value);
+                H.updateCommonArray(value);
+                System.out.print(value + " ");
             }
             index++;
         }
